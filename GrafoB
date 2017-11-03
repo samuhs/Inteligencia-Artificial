@@ -1,0 +1,46 @@
+package AreasDeMileto;
+
+import es.usc.citius.hipster.algorithm.Hipster;
+import es.usc.citius.hipster.graph.GraphBuilder;
+import es.usc.citius.hipster.graph.GraphSearchProblem;
+import es.usc.citius.hipster.graph.HipsterGraph;
+import es.usc.citius.hipster.model.problem.SearchProblem;
+
+public class Exercicio1 {
+
+	public static void main(String[] args) {
+
+		HipsterGraph<String,Double> grafo  = GraphBuilder.<String,Double>create()
+			.connect("A").to("B").withEdge(2d)
+			.connect("A").to("C").withEdge(3d)
+			.connect("A").to("D").withEdge(6d)
+			.connect("C").to("B").withEdge(8d)
+			.connect("C").to("E").withEdge(1d)
+			.connect("C").to("G").withEdge(10d)
+			.connect("D").to("A").withEdge(7d)
+			.connect("D").to("E").withEdge(5d)
+			.connect("E").to("H").withEdge(9d)
+			.connect("F").to("B").withEdge(8d)
+			.connect("G").to("D").withEdge(9d)
+			.connect("G").to("F").withEdge(3d)
+			.connect("G").to("H").withEdge(2d)
+			.createDirectedGraph();
+
+SearchProblem problema=GraphSearchProblem.startingFrom("A").in(grafo).takeCostsFromEdges().build();
+		
+		System.out.println("Busca em Profundidade");
+		System.out.println(Hipster.createDepthFirstSearch(problema).search("F"));
+		System.out.println("\n");
+		
+		System.out.println("Busca em Largura");
+		System.out.println(Hipster.createBreadthFirstSearch(problema).search("F"));
+		System.out.println("\n");
+		
+		System.out.println("Busca A *");
+		System.out.println(Hipster.createAStar(problema).search("F"));
+		System.out.println("\n");
+		
+		System.out.println("Busca Gulosa");
+		System.out.println(Hipster.createHillClimbing(problema,true).search("F"));
+		System.out.println("\n");
+	}
