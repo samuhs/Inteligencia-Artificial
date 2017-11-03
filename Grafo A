@@ -1,0 +1,51 @@
+package pacote;
+
+import es.usc.citius.hipster.algorithm.Hipster;
+import es.usc.citius.hipster.graph.GraphBuilder;
+import es.usc.citius.hipster.graph.GraphSearchProblem;
+import es.usc.citius.hipster.graph.HipsterDirectedGraph;
+import es.usc.citius.hipster.graph.HipsterGraph;
+import es.usc.citius.hipster.model.problem.SearchProblem;
+
+public class Grafo {
+
+	public static void main(String[] args) {
+		
+
+
+HipsterGraph <String,Double> grafoAexe2 = GraphBuilder.<String,Double>create()
+				.connect("A").to("B").withEdge(65d)
+				.connect("A").to("C").withEdge(32d)
+				.connect("A").to("D").withEdge(1d)
+				.connect("B").to("C").withEdge(2d)
+				.connect("B").to("E").withEdge(3d)
+				.connect("B").to("G").withEdge(4d)
+				.connect("C").to("E").withEdge(5d)
+				.connect("C").to("F").withEdge(6d)
+				.connect("D").to("F").withEdge(7d)
+				.connect("E").to("F").withEdge(6d)
+				.connect("E").to("G").withEdge(3d)
+				.connect("F").to("H").withEdge(6d)
+				.connect("G").to("H").withEdge(78d)
+				.connect("G").to("J").withEdge(3d)
+				.connect("H").to("I").withEdge(89d)
+				.connect("I").to("J").withEdge(5d).createUndirectedGraph();
+		
+SearchProblem problema=GraphSearchProblem.startingFrom("A").in(grafoAexe2).takeCostsFromEdges().build();
+		
+		
+		System.out.println("PROFUNDIDADE\n");
+		System.out.println(Hipster.createDepthFirstSearch(problema).search("J"));
+		
+		System.out.println("\n\nLARGURA\n");
+		System.out.println(Hipster.createBreadthFirstSearch(problema).search("J"));
+		
+		System.out.println("\n\n #A* \n");
+		System.out.println(Hipster.createAStar(problema).search("J"));
+		
+		System.out.println("\n\n HILL CLIMBING \n");
+		System.out.println(Hipster.createHillClimbing(problema,true).search("J"));
+
+	}
+
+}
